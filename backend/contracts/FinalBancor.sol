@@ -10,7 +10,7 @@ contract FinalBancor is ERC20 {
     uint256 public reserveRatio;
     // uint256 public conversion = 2;
 
-    address public ad = 0x5c904BF78cAf64f8173112110d179fA0BbA42D33;
+    address public ad = 0x50454014ca46207770a879D35BC64E5D269DC0d4;
     //  AggregatorV3Interface internal priceFeed;
 
     uint256 public supply;
@@ -26,19 +26,24 @@ contract FinalBancor is ERC20 {
     }
 
     function buyTokensUsingMatic(uint256 tokenAmount) public payable {
-        uint256 maticAmount = calculateMaticAmount(tokenAmount, true);
+        uint256 maticAmount = calculateMaticAmount(tokenAmount, true) *
+            (10 ** 18);
         require(msg.value >= maticAmount, "Insufficient Funds");
-        _mint(msg.sender, tokenAmount);
-        balances[msg.sender] += tokenAmount;
+        _mint(msg.sender, tokenAmount * (10 ** 18));
+        balances[msg.sender] += tokenAmount * (10 ** 18);
         supply += tokenAmount;
         payable(msg.sender).transfer(msg.value - maticAmount);
     }
 
     function sellTokensUsingMatic(uint256 tokenAmount) public payable {
-        uint256 maticAmount = calculateMaticAmount(tokenAmount, false);
-        require(balances[msg.sender] >= tokenAmount, "Insufficient Balances");
-        _burn(payable(msg.sender), tokenAmount);
-        balances[msg.sender] -= tokenAmount;
+        uint256 maticAmount = calculateMaticAmount(tokenAmount, false) *
+            (10 ** 18);
+        require(
+            balances[msg.sender] >= tokenAmount * (10 ** 18),
+            "Insufficient Balances"
+        );
+        _burn(payable(msg.sender), tokenAmount * (10 ** 18));
+        balances[msg.sender] -= tokenAmount * (10 ** 18);
         supply -= tokenAmount;
         payable(msg.sender).transfer(maticAmount);
     }
@@ -47,7 +52,8 @@ contract FinalBancor is ERC20 {
         // uint256 ethAmount = calculateEthAmount(tokenAmount, true);
         // require(msg.value >= ethAmount, "Insufficient Funds");
 
-        uint256 usdcamount = calculateUSDCAmount(tokenAmount, true);
+        uint256 usdcamount = calculateUSDCAmount(tokenAmount, true) *
+            (10 ** 18);
 
         address usdcTokenAddress = address(ad);
         ERC20 usdcToken = ERC20(usdcTokenAddress);
@@ -59,25 +65,29 @@ contract FinalBancor is ERC20 {
         // require(allowance >= usdcamount, "Insufficient allowance");
         // usdcToken.approve(msg.sender, type(uint256).max);
 
-        _mint(msg.sender, tokenAmount);
-        balances[msg.sender] += tokenAmount;
+        _mint(msg.sender, tokenAmount * (10 ** 18));
+        balances[msg.sender] += tokenAmount * (10 ** 18);
         supply += tokenAmount;
     }
 
     function sellTokensusingUSDC(uint256 tokenAmount) public {
-        uint256 usdcAmounts = calculateUSDCAmount(tokenAmount, false);
+        uint256 usdcAmounts = calculateUSDCAmount(tokenAmount, false) *
+            (10 ** 18);
 
         address usdcTokenAddress = address(ad);
         ERC20 usdcToken = ERC20(usdcTokenAddress);
-        usdcToken.approve(address(this), usdcAmounts);
+        usdcToken.approve(address(this), usdcAmounts * (10 ** 18));
         require(
             usdcToken.transferFrom(address(this), msg.sender, usdcAmounts),
             "USDC transfer failed"
         );
 
-        require(balances[msg.sender] >= tokenAmount, "Insufficient Balances");
-        _burn(payable(msg.sender), tokenAmount);
-        balances[msg.sender] -= tokenAmount;
+        require(
+            balances[msg.sender] >= tokenAmount * (10 ** 18),
+            "Insufficient Balances"
+        );
+        _burn(payable(msg.sender), tokenAmount * (10 ** 18));
+        balances[msg.sender] -= tokenAmount * (10 ** 18);
         supply -= tokenAmount;
     }
 
@@ -160,7 +170,11 @@ contract FinalBancor is ERC20 {
         address usdcTokenAddress = address(ad);
         ERC20 usdcToken = ERC20(usdcTokenAddress);
         require(
-            usdcToken.transferFrom(msg.sender, address(this), usdcamount),
+            usdcToken.transferFrom(
+                msg.sender,
+                address(this),
+                usdcamount * (10 ** 18)
+            ),
             "USDC transfer failed"
         );
     }

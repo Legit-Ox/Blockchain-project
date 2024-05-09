@@ -38,7 +38,7 @@
       ]
     },
     "/home/sahil/Documents/blockchain/project/backend/contracts/ERC20.sol": {
-      "lastModificationDate": 1715172364738,
+      "lastModificationDate": 1715259035184,
       "contentHash": "da4801d00d1e3593be002a06eba5887f",
       "sourceName": "contracts/ERC20.sol",
       "solcConfig": {
@@ -191,8 +191,8 @@
       ]
     },
     "/home/sahil/Documents/blockchain/project/backend/contracts/TestUsdc.sol": {
-      "lastModificationDate": 1715172364742,
-      "contentHash": "d1c9fb9b1c2c433d992267e1e8ed3524",
+      "lastModificationDate": 1715253318026,
+      "contentHash": "d71967305aabe065c9feabf82f21020d",
       "sourceName": "contracts/TestUsdc.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -229,8 +229,8 @@
       ]
     },
     "/home/sahil/Documents/blockchain/project/backend/contracts/FinalBancor.sol": {
-      "lastModificationDate": 1715172364738,
-      "contentHash": "02ec52082d32a6049e138fc2bf8be5c3",
+      "lastModificationDate": 1715258585018,
+      "contentHash": "afb9e25b5ba88db691fcc56c404dce0d",
       "sourceName": "contracts/FinalBancor.sol",
       "solcConfig": {
         "version": "0.8.20",

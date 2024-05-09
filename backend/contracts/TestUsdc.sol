@@ -6,6 +6,6 @@ contract TestUSDC is ERC20 {
     constructor() ERC20("TestUSDC", "USDC") {}
 
     function mintTokens(address reciever, uint256 tokenAmount) external {
-        _mint(reciever, tokenAmount);
+        _mint(reciever, tokenAmount * (10 ** 18));
     }
 }
