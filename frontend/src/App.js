@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
+import functionPlot from "function-plot";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState("");
   const [textField1, setTextField1] = useState("");
   const [textField2, setTextField2] = useState("");
-  const [textField3, setTextField3] = useState("");
+  const [textField3, setTextField3] = useState("50");
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState("");
+  const [equation, setEquation] = useState("");
+  const handleEquationChange = (event) => {
+    setEquation(event.target.value);
+  };
 
   function handleButtonClick() {
     console.log("Button clicked");
@@ -33,6 +38,27 @@ function App() {
         console.error(error);
       });
   }
+  useEffect(() => {
+    const reserveRatio = Number(textField3);
+
+    functionPlot({
+      target: "#root",
+      width: 800,
+      data: [
+        {
+          fn: `(x ^ (1 - (${reserveRatio}/100))) / (${reserveRatio}/100)`, // replace 0.2 with your reserve ratio
+          sampler: "builtIn",
+          graphType: "polyline",
+        },
+      ],
+      xAxis: {
+        domain: [-1000, 1000], // replace with your desired x-axis range
+      },
+      yAxis: {
+        domain: [-1000, 1000], // replace with your desired y-axis range
+      },
+    });
+  }, [textField3]);
 
   // async function requestAccount() {
   //   console.log("Requesting Account.......");
@@ -91,6 +117,8 @@ function App() {
               placeholder="Reserve Ratio"
               min="0"
             />
+            <div id="root"></div>
+
             <button onClick={handleButtonClick}>Deploy</button>
             <p>Address: {address}</p>
           </div>
